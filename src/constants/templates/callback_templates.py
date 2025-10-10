@@ -1,0 +1,16 @@
+from typing import Final
+
+PROGRAM_TYPE_CALLBACK_TEMPLATE: Final[str] = "program_type_"
+PRODUCT_TYPE_FOR_NEW_PRODUCT_CALLBACK_TEMPLATE: Final[str] = "product_type_new_"
+PRODUCT_TYPE_FOR_EDIT_CALLBACK_TEMPLATE: Final[str] = "product_type_edit_"
+PRODUCT_TYPE_FOR_PRODUCT_EDIT_CALLBACK_TEMPLATE: Final[str] = "product_type_product_edit_"
+PRODUCT_FOR_EDIT_CALLBACK_TEMPLATE: Final[str] = "product_edit_"
+PRODUCT_ACTION_CALLBACK_TEMPLATE: Final[str] = "product_action_"
+PRODUCT_TYPE_ACTION_CALLBACK_TEMPLATE: Final[str] = "product_type_action_"
+ORDERING_CALLBACK_TEMPLATE: Final[str] = "order_"
+PRODUCT_CALLBACK_TEMPLATE: Final[str] = "product_"
+ADMIN_CALLBACK_TEMPLATE: Final[str] = "admin_"
+SKIPP_CALLBACK_TEMPLATE: Final[str] = "^skipp$"
+FINISH_CALLBACK_TEMPLATE: Final[str] = "^finish$"
+CANCEL_CALLBACK_TEMPLATE: Final[str] = "^cancel$"
+CANCEL_BUTTON_CALLBACK: Final[str] = "cancel"

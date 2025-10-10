@@ -1,0 +1,41 @@
+[project]
+name = "tg-bot-for-agents"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aioboto3>=15.1.0",
+    "aiosqlite>=0.21.0",
+    "alembic>=1.16.5",
+    "dependency-injector>=4.48.1",
+    "fastapi>=0.116.1",
+    "greenlet>=3.2.4",
+    "loguru>=0.7.3",
+    "pydantic>=2.11.9",
+    "pydantic-settings>=2.10.1",
+    "python-telegram-bot>=22.4",
+    "sqlalchemy>=2.0.43",
+    "uvicorn>=0.35.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff==0.12.4",
+]
+
+[tool.ruff]
+indent-width = 4
+line-length = 120
+exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = [ "E", "F", "UP", "B", "SIM", "ANN", "A", "PL", "ASYNC", "DTZ", "FIX", "INT", "ICN", "LOG", "G", "INP",
+    "PIE", "PT", "Q", "SIM", "TC", "ARG", "N", "W", "UP", "TRY", "I"]
+ignore = ["ANN401", "FIX002", "FIX001", "PT011", "PLR0913"]
+
+[tool.ruff.lint.per-file-ignores]
+"*test_reader_service*" = ["PT006"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
