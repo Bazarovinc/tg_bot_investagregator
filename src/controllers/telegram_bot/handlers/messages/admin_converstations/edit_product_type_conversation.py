@@ -21,7 +21,7 @@ from src.container import AppContainer
 from src.controllers.telegram_bot.states import EDIT_PRODUCT_TYPE_NAME_STATE, SELECT_PRODUCT_TYPE_ACTION_STATE
 from src.controllers.telegram_bot.utils.get_callback_query import get_callback_query
 from src.enums import ProductTypeActionEnum
-from src.gateways.database.models import ProductType
+from src.gateways.database.models import Product, ProductType
 
 _product_type_cache: dict[str, int | None] = {"product_type_id": None}
 
@@ -92,6 +92,7 @@ async def get_product_type_action_callback(
             return EDIT_PRODUCT_TYPE_NAME_STATE
         case ProductTypeActionEnum.delete_product_type:
             async with session() as _session:
+                await _session.execute(delete(Product).where(Product.product_type_id == product_type_id))
                 await _session.execute(delete(ProductType).where(ProductType.id == product_type_id))
                 await asyncio.gather(
                     *(
