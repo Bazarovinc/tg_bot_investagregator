@@ -1,12 +1,12 @@
 from telegram import Update
 from telegram.ext import Application
 
-from src.containers.use_cases import UseCasesContainer
+from src.container import AppContainer
 from src.controllers.telegram_bot.utils.init_handlers import get_handlers, setup_commands
 from src.settings.app import app_settings
 
 if __name__ == "__main__":
-    container = UseCasesContainer()
+    container = AppContainer()
     application = (
         Application.builder().token(app_settings.telegram.token.get_secret_value()).post_init(setup_commands).build()
     )

@@ -19,8 +19,8 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 settings = DatabaseSettings()
-
-config.set_main_option("sqlalchemy.url", settings.dsn)
+DSN = settings.dsn.replace("+aiosqlite", "")
+config.set_main_option("sqlalchemy.url", DSN)
 fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
