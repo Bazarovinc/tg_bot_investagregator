@@ -12,10 +12,10 @@ COPY pyproject.toml uv.lock ./
 # Install dependencies
 RUN uv sync --locked --no-dev
 
-COPY ./main.py /code
+COPY ./test_main.py /code
 
 COPY ./src /code/src
 COPY ./migrations /code/migrations
 
 # Укажите команду для запуска приложения
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python3", "-m", "test_main"]
