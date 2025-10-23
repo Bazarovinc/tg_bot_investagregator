@@ -308,7 +308,7 @@ async def edit_product_profitability(
     message: str = EDIT_PRODUCT_PROFITABILITY_MESSAGE_TEMPLATE,
 ) -> int:
     logger.info("Изменение «Доходности по продукту»")
-    value = int(Decimal(update.message.text.replace(",", ".")) * 100)
+    value = Decimal(update.message.text.replace(",", "."))
     return await _edit_new_value_and_send_edit_selection(
         {field_name: value}, message.format(value=value), update, context
     )
@@ -321,7 +321,7 @@ async def edit_product_agent_profitability(
     message: str = EDIT_PRODUCT_AGENT_PROFITABILITY_MESSAGE_TEMPLATE,
 ) -> int:
     logger.info("Изменение «Доходности для агента»")
-    value = int(Decimal(update.message.text.replace(",", ".")) * 100)
+    value = Decimal(update.message.text.replace(",", "."))
     return await _edit_new_value_and_send_edit_selection(
         {field_name: value}, message.format(value=value), update, context
     )

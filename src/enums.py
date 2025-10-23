@@ -21,3 +21,10 @@ class ProductActionEnum(IntEnum):
     edit_description = 4
     edit_file_path = 5
     delete_product = 6
+
+
+class SupportDialogStatusEnum(IntEnum):
+    started = 0
+    in_progress = 1
+    finished_by_user = 2
+    finished_by_support = 3

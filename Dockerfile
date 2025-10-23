@@ -20,6 +20,9 @@ COPY ./entrypoint.sh /code
 COPY ./alembic.ini /code
 COPY ./migrations /code/migrations
 COPY ./test_main.py /code
+COPY wait-for /usr/bin/
+RUN chmod +x /usr/bin/wait-for
+
 RUN chmod 777 /code/entrypoint.sh
 ## Укажите команду для запуска приложения
 #CMD alembic upgrade head && python3 -m test_main

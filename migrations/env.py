@@ -19,7 +19,8 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 settings = DatabaseSettings()
-DSN = settings.dsn.replace("+aiosqlite", "")
+DSN = settings.dsn.replace("+asyncpg", "")
+print(DSN)
 config.set_main_option("sqlalchemy.url", DSN)
 fileConfig(config.config_file_name)
 

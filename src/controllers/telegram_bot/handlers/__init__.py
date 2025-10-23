@@ -1,5 +1,11 @@
-from .callbacks import get_admin_callback, get_cancel_callback, get_menu_callback, get_ordering_callback
-from .commands import get_admin_message, get_help_message, get_menu, get_start_message
+from .callbacks import (
+    get_admin_callback,
+    get_cancel_callback,
+    get_finish_conversation_callback,
+    get_menu_callback,
+    get_ordering_callback,
+)
+from .commands import get_admin_message, get_help_message, get_menu, get_start_message, get_support_message
 from .messages import (
     add_new_product_type,
     add_product_agent_profitability_and_send_next_question,
@@ -23,6 +29,8 @@ from .messages import (
     get_product_type_for_next_action_callback,
     get_product_type_for_product_selection_callback,
     get_product_type_id_callback_and_send_next_question,
+    process_support_reply_to_user,
+    process_user_reply_to_support,
 )
 
 __all__ = [
@@ -56,4 +64,8 @@ __all__ = [
     "edit_product_description",
     "edit_product_placement_period",
     "edit_product_profitability",
+    "get_support_message",
+    "process_user_reply_to_support",
+    "process_support_reply_to_user",
+    "get_finish_conversation_callback",
 ]

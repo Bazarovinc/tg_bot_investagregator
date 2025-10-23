@@ -6,9 +6,18 @@ services:
     container_name: tg_investagregator_bot
     restart: unless-stopped
     command: python -m test_main
-    entrypoint: ./entrypoint.sh
-    volumes:
-      # Монтируем директорию для базы данных
-      - ./bot_data:/code/data
+#    entrypoint: wait-for db:5432 -- ./entrypoint.sh
     env_file:
       - .env
+  postgres:
+    image: postgres:15
+    container_name: postgres15
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_DB=tg_bot
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data:cached
+    restart: unless-stopped

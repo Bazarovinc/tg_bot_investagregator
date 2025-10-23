@@ -44,8 +44,8 @@ from src.gateways.object_storage_client import ObjectStorageClient
 
 class ProductCacheData(TypedDict):
     name: str | None
-    profitability: int | None
-    agent_profitability: int | None
+    profitability: Decimal | None
+    agent_profitability: Decimal | None
     placement_period: int | None
     product_type_id: int | None
     description: str | None
@@ -144,7 +144,7 @@ async def add_product_profitability_and_send_next_question(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> int:
     logger.info("Добавлена «Доходность по продукту» нового продукта. Запрос «Доходности для агента»")
-    product_profitability = int(Decimal(update.message.text.replace(",", ".")) * 100)
+    product_profitability = Decimal(update.message.text.replace(",", "."))
     _product_cache["profitability"] = product_profitability
     await context.bot.send_message(
         text=ADD_NEW_PRODUCT_AGENT_PROFITABILITY_MESSAGE_TEMPLATE,
@@ -168,7 +168,7 @@ async def add_product_agent_profitability_and_send_next_question(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> int:
     logger.info("Добавлена «Доходность для агента» нового продукта. Запрос «Срока продукта»")
-    product_agent_profitability = int(Decimal(update.message.text.replace(",", ".")) * 100)
+    product_agent_profitability = Decimal(update.message.text.replace(",", "."))
     _product_cache["agent_profitability"] = product_agent_profitability
     await context.bot.send_message(
         text=ADD_NEW_PRODUCT_PLACEMENT_PERIOD_MESSAGE_TEMPLATE,
@@ -281,8 +281,8 @@ async def _save_new_product_and_send_finish_message(
                 context.bot.send_message(
                     text=PRODUCT_SAVED_MESSAGE_TEMPLATE.format(
                         name=_product_cache["name"],
-                        profitability=round(Decimal(_product_cache["profitability"] / 100), 2),
-                        agent_profitability=round(Decimal(_product_cache["agent_profitability"] / 100), 2),
+                        profitability=_product_cache["profitability"],
+                        agent_profitability=_product_cache["agent_profitability"],
                         placement_period=_product_cache["placement_period"],
                         product_type=product_type.name,
                         description=_product_cache["description"] or MISSING_VALUE,

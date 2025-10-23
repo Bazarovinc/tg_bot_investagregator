@@ -5,6 +5,7 @@ from src.constants import (
     ADMIN_CALLBACK_TEMPLATE,
     ADMIN_COMMAND_NAME,
     CANCEL_CALLBACK_TEMPLATE,
+    FINISH_SUPPORT_DIALOG_CALLBACK,
     HELP_COMMAND_INFO,
     HELP_COMMAND_NAME,
     MENU_COMMAND_INFO,
@@ -16,6 +17,8 @@ from src.constants import (
     PROGRAM_TYPE_CALLBACK_TEMPLATE,
     START_COMMAND_INFO,
     START_COMMAND_NAME,
+    SUPPORT_COMMAND_INFO,
+    SUPPORT_COMMAND_NAME,
 )
 from src.constants.templates import (
     PRODUCT_TYPE_FOR_NEW_PRODUCT_CALLBACK_TEMPLATE,
@@ -40,6 +43,7 @@ from src.controllers.telegram_bot.handlers import (
     get_admin_message,
     get_cancel_callback,
     get_finish_callback,
+    get_finish_conversation_callback,
     get_help_message,
     get_menu,
     get_menu_callback,
@@ -51,6 +55,9 @@ from src.controllers.telegram_bot.handlers import (
     get_product_type_for_product_selection_callback,
     get_product_type_id_callback_and_send_next_question,
     get_start_message,
+    get_support_message,
+    process_support_reply_to_user,
+    process_user_reply_to_support,
 )
 from src.controllers.telegram_bot.handlers.callbacks import get_product_callback
 from src.controllers.telegram_bot.states import (
@@ -75,7 +82,9 @@ from src.controllers.telegram_bot.states import (
     SELECT_PRODUCT_TYPE_ACTION_STATE,
     SELECT_PRODUCT_TYPE_FOR_EDIT_PRODUCT_STATE,
     SELECT_PRODUCT_TYPE_FOR_EDIT_STATE,
+    START_SUPPORT_STATE,
 )
+from src.settings.app import app_settings
 
 START_COMMAND_HANDLER = CommandHandler(
     START_COMMAND_NAME,
@@ -93,7 +102,15 @@ MENU_COMMAND_HANDLER = CommandHandler(
     get_menu,
     filters=filters.ChatType.PRIVATE,
 )
-ADMIN_COMMAND_HANDLER = CommandHandler(ADMIN_COMMAND_NAME, get_admin_message)  # , filters=filters.ChatType.PRIVATE)
+ADMIN_COMMAND_HANDLER = CommandHandler(
+    ADMIN_COMMAND_NAME, get_admin_message, filters=filters.ChatType.GROUP
+)  # , filters=filters.ChatType.PRIVATE)
+SUPPORT_COMMAND_HANDLER = CommandHandler(
+    SUPPORT_COMMAND_NAME,
+    get_support_message,
+    filters=filters.ChatType.PRIVATE,
+)
+
 
 MENU_QUERY_HANDLER = CallbackQueryHandler(
     get_menu_callback,
@@ -182,6 +199,15 @@ EDIT_PRODUCT_DESCRIPTION_MESSAGE_HANDLER = MessageHandler(
     filters.TEXT & ~filters.COMMAND & filters.REPLY, edit_product_description
 )
 EDIT_PRODUCT_FILE_PATH_MESSAGE_HANDLER = MessageHandler(~filters.COMMAND & filters.REPLY, edit_file_path)
+ASK_QUESTION_MESSAGE_HANDLER = MessageHandler(filters.TEXT & ~filters.COMMAND, process_user_reply_to_support)
+ANSWER_QUESTION_MESSAGE_HANDLER = MessageHandler(
+    filters.Chat(app_settings.telegram.support_chat_id) & filters.TEXT & ~filters.COMMAND & filters.REPLY,
+    process_support_reply_to_user,
+)
+FINISH_SUPPORT_DIALOG_CALLBACK_QUERY_HANDLER = CallbackQueryHandler(
+    get_finish_conversation_callback,
+    pattern=FINISH_SUPPORT_DIALOG_CALLBACK,
+)
 
 
 def get_command_handlers() -> tuple[CommandHandler, ...]:
@@ -227,6 +253,13 @@ def get_conversation_handlers() -> tuple[ConversationHandler, ...]:
             per_chat=True,
             per_user=False,
         ),
+        ConversationHandler(
+            entry_points=[SUPPORT_COMMAND_HANDLER],
+            states={
+                START_SUPPORT_STATE: [ASK_QUESTION_MESSAGE_HANDLER, FINISH_SUPPORT_DIALOG_CALLBACK_QUERY_HANDLER],
+            },
+            fallbacks=[FINISH_SUPPORT_DIALOG_CALLBACK_QUERY_HANDLER],
+        ),
     )
 
 
@@ -235,6 +268,7 @@ def get_callback_query_handlers() -> tuple[CallbackQueryHandler, ...]:
         MENU_QUERY_HANDLER,
         ORDER_QUERY_HANDLER,
         PRODUCT_QUERY_HANDLER,
+        # FINISH_SUPPORT_DIALOG_CALLBACK_QUERY_HANDLER
         # SELECT_PRODUCT_BY_PRODUCT_TYPE_FOR_EDIT_CALLBACK_QUERY_HANDLER,
         # SELECT_PRODUCT_FOR_EDIT_CALLBACK_QUERY_HANDLER,
         # SELECT_PRODUCT_ACTION_CALLBACK_QUERY_HANDLER,
@@ -242,7 +276,12 @@ def get_callback_query_handlers() -> tuple[CallbackQueryHandler, ...]:
 
 
 def get_handlers() -> tuple[ConversationHandler | CommandHandler | MessageHandler, ...]:
-    return get_command_handlers() + get_callback_query_handlers() + get_conversation_handlers()
+    return (
+        get_command_handlers()
+        + get_callback_query_handlers()
+        + get_conversation_handlers()
+        + (ANSWER_QUESTION_MESSAGE_HANDLER,)
+    )
 
 
 async def setup_commands(application: Application) -> None:
@@ -252,5 +291,6 @@ async def setup_commands(application: Application) -> None:
             BotCommand(START_COMMAND_NAME, START_COMMAND_INFO),
             BotCommand(HELP_COMMAND_NAME, HELP_COMMAND_INFO),
             BotCommand(MENU_COMMAND_NAME, MENU_COMMAND_INFO),
+            BotCommand(SUPPORT_COMMAND_NAME, SUPPORT_COMMAND_INFO),
         )
     )

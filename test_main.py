@@ -7,6 +7,7 @@ from src.settings.app import app_settings
 
 if __name__ == "__main__":
     container = AppContainer()
+    print(app_settings.model_dump_json(indent=4))
     application = (
         Application.builder().token(app_settings.telegram.token.get_secret_value()).post_init(setup_commands).build()
     )

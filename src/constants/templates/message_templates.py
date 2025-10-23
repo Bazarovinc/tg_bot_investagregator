@@ -109,3 +109,18 @@ EDIT_PRODUCT_PLACEMENT_PERIOD_MESSAGE_TEMPLATE: Final[str] = (
 )
 EDIT_PRODUCT_DESCRIPTION_MESSAGE_TEMPLATE: Final[str] = "Новое описание успешно сохранено"
 EDIT_PRODUCT_FILE_MESSAGE_TEMPLATE: Final[str] = "Новый файл успешно сохранен"
+
+SUPPORT_START_MESSAGE_TEMPLATE: Final[str] = (
+    f"Начат диалог с поддержкой. Введите свой вопрос.\n\nДля завершения нажмите кнопку «{FINISH_BUTTON_TEXT}»"
+)
+
+SUPPORT_DIALOG_QUESTION_TO_SUPPORT_MESSAGE_TEMPLATE: Final[str] = "Вопрос по обращению №{dialog_id}:\n\n {question}"
+SUPPORT_DIALOG_ANSWER_TO_USER_MESSAGE_TEMPLATE: Final[str] = "Ответ на ваш вопрос:\n\n {answer}"
+SUPPORT_DIALOG_FINISHED_BY_SUPPORT_MESSAGE_TEMPLATE: Final[str] = (
+    "Ваш диалог с поддержкой был завершен сотрудником поддержки"
+)
+SUPPORT_DIALOG_FINISHED_BY_USER_MESSAGE_TEMPLATE: Final[str] = (
+    "Ваш диалог по обращению №{dialog_id} был завершен пользователем"
+)
+SUPPORT_DIALOG_FINISH_MESSAGE_TEMPLATE: Final[str] = "Ваш диалог по обращению №{dialog_id} был завершен"
+SUPPORT_DIALOG_FINISHED_MESSAGE_TEMPLATE: Final[str] = "Ваш диалог был успешно завершен"

@@ -22,6 +22,7 @@ from .admin_converstations import (
     get_product_type_for_product_selection_callback,
     get_product_type_id_callback_and_send_next_question,
 )
+from .support_conversation import process_support_reply_to_user, process_user_reply_to_support
 
 __all__ = [
     "add_new_product_type",
@@ -46,4 +47,6 @@ __all__ = [
     "edit_product_description",
     "edit_product_placement_period",
     "edit_product_profitability",
+    "process_user_reply_to_support",
+    "process_support_reply_to_user",
 ]

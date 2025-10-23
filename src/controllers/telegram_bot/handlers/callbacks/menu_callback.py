@@ -136,8 +136,8 @@ async def get_product_callback(
                 chat_id=update.effective_chat.id,
                 text=PRODUCT_INFO_MESSAGE_TEMPLATE.format(
                     name=product.name,
-                    profitability=round(Decimal(product.profitability / 100), 2),
-                    agent_profitability=round(Decimal(product.agent_profitability / 100), 2),
+                    profitability=product.profitability,
+                    agent_profitability=product.agent_profitability,
                     placement_period=product.placement_period,
                     product_type=product_type.name,
                 ),

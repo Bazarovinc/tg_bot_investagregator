@@ -10,10 +10,11 @@ from src.constants import (
     CANCEL_BUTTON_TEXT,
 )
 from src.controllers.telegram_bot.states import ADMIN_START_STATE
-from src.controllers.telegram_bot.utils.admin_virfication import check_admins
+from src.controllers.telegram_bot.utils.admin_virfication import verify_chat_id
+from src.settings.app import app_settings
 
 
-@check_admins
+@verify_chat_id(app_settings.telegram.admin_chat_id)
 async def get_admin_message(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,  # noqa: ARG001
