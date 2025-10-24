@@ -102,9 +102,7 @@ MENU_COMMAND_HANDLER = CommandHandler(
     get_menu,
     filters=filters.ChatType.PRIVATE,
 )
-ADMIN_COMMAND_HANDLER = CommandHandler(
-    ADMIN_COMMAND_NAME, get_admin_message, filters=filters.ChatType.GROUP
-)  # , filters=filters.ChatType.PRIVATE)
+ADMIN_COMMAND_HANDLER = CommandHandler(ADMIN_COMMAND_NAME, get_admin_message)
 SUPPORT_COMMAND_HANDLER = CommandHandler(
     SUPPORT_COMMAND_NAME,
     get_support_message,

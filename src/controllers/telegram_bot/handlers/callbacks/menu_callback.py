@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from dependency_injector.wiring import Provide, inject
 from loguru import logger
 from sqlalchemy import desc, select
@@ -72,7 +70,7 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} (+{round(Decimal(product.profitability / 100), 2)}%)",
+                            f"{product.name} (+{product.profitability}%)",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )
@@ -82,7 +80,7 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} (+{round(Decimal(product.agent_profitability / 100), 2)}%)",
+                            f"{product.name} (+{product.agent_profitability}%)",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )
