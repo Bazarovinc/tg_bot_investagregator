@@ -41,6 +41,9 @@ ADD_NEW_PRODUCT_FILE_MESSAGE_TEMPLATE: Final[str] = (
 
 
 PRODUCT_TYPE_SAVED_MESSAGE_TEMPLATE: Final[str] = "Новая группа продуктов «{product_type_name}» успешно добавлена"
+PRODUCT_TYPE_CANT_BE_SAVED_MESSAGE_TEMPLATE: Final[str] = (
+    "Группа продуктов с таким именем «{product_type_name}» уже существует! Попробуйте снова"
+)
 PRODUCT_SAVED_MESSAGE_TEMPLATE: Final[str] = (
     "Новый продукт успешно добавлен.\n"
     "Параметры продукта:\n"

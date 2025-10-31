@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
-from src.constants import PROGRAM_TYPE_CALLBACK_TEMPLATE
+from src.constants import MENU_COMMAND_MESSAGE, PROGRAM_TYPE_CALLBACK_TEMPLATE
 from src.container import AppContainer
 from src.controllers.telegram_bot.states import START_ROUTES
 from src.gateways.database.models import Product, ProductType
@@ -29,7 +29,7 @@ async def get_menu(
             .all()
         )
         await update.message.reply_text(
-            "Вот группы продуктов",
+            MENU_COMMAND_MESSAGE,
             reply_markup=InlineKeyboardMarkup(
                 [
                     (

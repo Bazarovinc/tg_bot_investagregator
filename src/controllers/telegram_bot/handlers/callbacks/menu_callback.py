@@ -70,7 +70,7 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} (+{product.profitability}%)",
+                            f"{product.name} ({product.profitability}%)",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )
@@ -80,7 +80,7 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} (+{product.agent_profitability}%)",
+                            f"{product.name} ({product.agent_profitability}%)",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )

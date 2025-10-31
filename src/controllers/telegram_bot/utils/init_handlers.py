@@ -54,7 +54,6 @@ from src.controllers.telegram_bot.handlers import (
     get_product_type_for_next_action_callback,
     get_product_type_for_product_selection_callback,
     get_product_type_id_callback_and_send_next_question,
-    get_start_message,
     get_support_message,
     process_support_reply_to_user,
     process_user_reply_to_support,
@@ -88,7 +87,7 @@ from src.settings.app import app_settings
 
 START_COMMAND_HANDLER = CommandHandler(
     START_COMMAND_NAME,
-    get_start_message,
+    get_help_message,
     filters=filters.ChatType.PRIVATE,
 )
 HELP_COMMAND_HANDLER = CommandHandler(

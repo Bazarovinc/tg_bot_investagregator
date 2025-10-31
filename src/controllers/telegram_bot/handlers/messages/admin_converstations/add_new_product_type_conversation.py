@@ -2,11 +2,13 @@ import asyncio
 
 from dependency_injector.wiring import Provide, inject
 from loguru import logger
+from sqlalchemy import exc
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler
 
 from src.constants import (
+    PRODUCT_TYPE_CANT_BE_SAVED_MESSAGE_TEMPLATE,
     PRODUCT_TYPE_SAVED_MESSAGE_TEMPLATE,
 )
 from src.container import AppContainer
@@ -23,14 +25,27 @@ async def add_new_product_type(
     product_type_name = update.message.text
     print(product_type_name)
     async with session() as _session:
-        _session.add(ProductType(name=product_type_name))
-        await asyncio.gather(
-            *(
-                _session.commit(),
-                context.bot.send_message(
-                    text=PRODUCT_TYPE_SAVED_MESSAGE_TEMPLATE.format(product_type_name=product_type_name),
-                    chat_id=update.effective_chat.id,
-                ),
+        try:
+            _session.add(ProductType(name=product_type_name))
+            await _session.flush()
+        except exc.IntegrityError:
+            await asyncio.gather(
+                *(
+                    _session.rollback(),
+                    context.bot.send_message(
+                        text=PRODUCT_TYPE_CANT_BE_SAVED_MESSAGE_TEMPLATE.format(product_type_name=product_type_name),
+                        chat_id=update.effective_chat.id,
+                    ),
+                )
             )
-        )
+        else:
+            await asyncio.gather(
+                *(
+                    _session.commit(),
+                    context.bot.send_message(
+                        text=PRODUCT_TYPE_SAVED_MESSAGE_TEMPLATE.format(product_type_name=product_type_name),
+                        chat_id=update.effective_chat.id,
+                    ),
+                )
+            )
     return ConversationHandler.END

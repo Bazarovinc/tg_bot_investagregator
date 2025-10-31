@@ -8,7 +8,7 @@ SUPPORT_COMMAND_NAME: Final[str] = "support"
 
 START_COMMAND_INFO: Final[str] = "Запуск бота и приветственное сообщение"
 HELP_COMMAND_INFO: Final[str] = "Вся информация о командах бота"
-MENU_COMMAND_INFO: Final[str] = "Получение группы продуктов"
+MENU_COMMAND_INFO: Final[str] = "Матрица продуктов"
 SUPPORT_COMMAND_INFO: Final[str] = "Поддержка"
 
 COMMANDS_INFO: Final[tuple[str, ...]] = (
