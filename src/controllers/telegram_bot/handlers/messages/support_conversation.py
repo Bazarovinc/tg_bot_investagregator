@@ -14,6 +14,8 @@ from src.constants import (
     SUPPORT_DIALOG_ANSWER_TO_USER_MESSAGE_TEMPLATE,
     SUPPORT_DIALOG_ID_PATTERN,
     SUPPORT_DIALOG_QUESTION_TO_SUPPORT_MESSAGE_TEMPLATE,
+    USER_WITH_USERNAME,
+    USER_WITHOUT_USERNAME,
 )
 from src.container import AppContainer
 from src.controllers.telegram_bot.states import START_SUPPORT_STATE, SUPPORT_STATE
@@ -58,7 +60,11 @@ async def process_user_reply_to_support(
             *(
                 context.bot.send_message(
                     text=SUPPORT_DIALOG_QUESTION_TO_SUPPORT_MESSAGE_TEMPLATE.format(
-                        dialog_id=support_dialog_info.id, question=user_message
+                        dialog_id=support_dialog_info.id,
+                        question=user_message,
+                        user=USER_WITH_USERNAME.format(username=user.username)
+                        if user.username
+                        else USER_WITHOUT_USERNAME,
                     ),
                     chat_id=app_settings.telegram.support_chat_id,
                 ),

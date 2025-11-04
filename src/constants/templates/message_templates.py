@@ -117,7 +117,11 @@ SUPPORT_START_MESSAGE_TEMPLATE: Final[str] = (
     f"Начат диалог с поддержкой. Введите свой вопрос.\n\nДля завершения нажмите кнопку «{FINISH_BUTTON_TEXT}»"
 )
 
-SUPPORT_DIALOG_QUESTION_TO_SUPPORT_MESSAGE_TEMPLATE: Final[str] = "Вопрос по обращению №{dialog_id}:\n\n {question}"
+SUPPORT_DIALOG_QUESTION_TO_SUPPORT_MESSAGE_TEMPLATE: Final[str] = (
+    "Вопрос по обращению №{dialog_id} от пользователя {user}:\n\n  {question}"
+)
+USER_WITH_USERNAME: Final[str] = "@{username}"
+USER_WITHOUT_USERNAME: Final[str] = "со скрытым именем пользователя"
 SUPPORT_DIALOG_ANSWER_TO_USER_MESSAGE_TEMPLATE: Final[str] = "Ответ на ваш вопрос:\n\n {answer}"
 SUPPORT_DIALOG_FINISHED_BY_SUPPORT_MESSAGE_TEMPLATE: Final[str] = (
     "Ваш диалог с поддержкой был завершен сотрудником поддержки"
