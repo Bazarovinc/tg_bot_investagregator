@@ -9,7 +9,7 @@ class DatabaseSettings(BaseSettings):
     host: str = "localhost"
     port: str = "15432"
     user: str = "postgres"
-    password: SecretStr
+    password: SecretStr = "my_postgres_password"
     db: str = "tg_bot"
     pool_size: int = 10
     pool_overflow_size: int = 15

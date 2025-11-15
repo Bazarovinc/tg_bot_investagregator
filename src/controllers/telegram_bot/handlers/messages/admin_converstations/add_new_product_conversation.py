@@ -40,6 +40,7 @@ from src.controllers.telegram_bot.states import (
 from src.controllers.telegram_bot.utils.get_callback_query import get_callback_query
 from src.gateways.database.models import Product, ProductType
 from src.gateways.object_storage_client import ObjectStorageClient
+from src.utils import convert_str_to_decimal, convert_str_to_int
 
 
 class ProductCacheData(TypedDict):
@@ -47,6 +48,9 @@ class ProductCacheData(TypedDict):
     profitability: Decimal | None
     agent_profitability: Decimal | None
     placement_period: int | None
+    profitability_readable: str | None
+    agent_profitability_readable: str | None
+    placement_period_readable: str | None
     product_type_id: int | None
     description: str | None
     file_path: str | None
@@ -144,8 +148,10 @@ async def add_product_profitability_and_send_next_question(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> int:
     logger.info("Добавлена «Доходность по продукту» нового продукта. Запрос «Доходности для агента»")
-    product_profitability = Decimal(update.message.text.replace(",", "."))
+    value = update.message.text
+    product_profitability = convert_str_to_decimal(value)
     _product_cache["profitability"] = product_profitability
+    _product_cache["profitability_readable"] = value
     await context.bot.send_message(
         text=ADD_NEW_PRODUCT_AGENT_PROFITABILITY_MESSAGE_TEMPLATE,
         chat_id=update.effective_message.chat_id,
@@ -168,8 +174,10 @@ async def add_product_agent_profitability_and_send_next_question(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> int:
     logger.info("Добавлена «Доходность для агента» нового продукта. Запрос «Срока продукта»")
-    product_agent_profitability = Decimal(update.message.text.replace(",", "."))
+    value = update.message.text
+    product_agent_profitability = convert_str_to_decimal(value)
     _product_cache["agent_profitability"] = product_agent_profitability
+    _product_cache["agent_profitability_readable"] = value
     await context.bot.send_message(
         text=ADD_NEW_PRODUCT_PLACEMENT_PERIOD_MESSAGE_TEMPLATE,
         chat_id=update.effective_message.chat_id,
@@ -192,8 +200,10 @@ async def add_product_placement_period_state_and_send_next_question(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> int:
     logger.info("Добавлена «Срок продукта» нового продукта. Запрос описания")
-    placement_period = int(update.message.text)
+    value = update.message.text
+    placement_period = convert_str_to_int(value)
     _product_cache["placement_period"] = placement_period
+    _product_cache["placement_period_readable"] = value
     await context.bot.send_message(
         text=ADD_NEW_PRODUCT_DESCRIPTION_MESSAGE_TEMPLATE,
         chat_id=update.effective_message.chat_id,

@@ -58,11 +58,11 @@ async def get_ordering_callback(
         _query = select(Product).where(Product.product_type_id == int(product_type_id))
         match int(sort_field):
             case 0:
-                _query = _query.order_by(desc(Product.profitability))
+                _query = _query.order_by(desc(Product.profitability).nulls_last())
             case 1:
-                _query = _query.order_by(desc(Product.agent_profitability))
+                _query = _query.order_by(desc(Product.agent_profitability).nulls_last())
             case 2:
-                _query = _query.order_by(desc(Product.placement_period))
+                _query = _query.order_by(desc(Product.placement_period).nulls_last())
         products = (await _session.execute(_query)).scalars().all()
         print(products)
         match int(sort_field):
@@ -70,7 +70,7 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} ({product.profitability}%)",
+                            f"{product.name} ({product.profitability_readable}{'%' if product.profitability else ''})",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )
@@ -80,7 +80,8 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} ({product.agent_profitability}%)",
+                            f"{product.name} ({product.agent_profitability_readable}"
+                            f"{'%' if product.agent_profitability else ''})",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )
@@ -90,7 +91,8 @@ async def get_ordering_callback(
                 buttons = [
                     (
                         InlineKeyboardButton(
-                            f"{product.name} ({product.placement_period} год/лет)",
+                            f"{product.name} ({product.placement_period_readable}"
+                            f"{' год/лет' if product.placement_period else ''})",
                             callback_data=PRODUCT_CALLBACK_TEMPLATE + str(product.id),
                         ),
                     )
