@@ -16,9 +16,11 @@ from src.constants import (
 )
 from src.container import AppContainer
 from src.controllers.telegram_bot.states import START_SUPPORT_STATE
+from src.controllers.telegram_bot.utils.verify_user import verify_user
 from src.gateways.database.models import SupportDialog
 
 
+@verify_user
 @inject
 async def get_support_message(
     update: Update,

@@ -3,8 +3,10 @@ from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler
 
 from src.constants import HELP_COMMAND_MESSAGE
+from src.controllers.telegram_bot.utils.verify_user import verify_user
 
 
+@verify_user
 async def get_help_message(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,  # noqa: ARG001

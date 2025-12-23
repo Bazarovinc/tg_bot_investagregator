@@ -5,6 +5,7 @@ HELP_COMMAND_NAME: Final[str] = "help"
 MENU_COMMAND_NAME: Final[str] = "menu"
 ADMIN_COMMAND_NAME: Final[str] = "admin"
 SUPPORT_COMMAND_NAME: Final[str] = "support"
+CHAT_ID_COMMAND_NAME: Final[str] = "chat_id"
 
 START_COMMAND_INFO: Final[str] = "Запуск бота и приветственное сообщение"
 HELP_COMMAND_INFO: Final[str] = "Вся информация о командах бота"

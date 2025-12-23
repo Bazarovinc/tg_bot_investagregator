@@ -5,6 +5,7 @@ from src.constants import (
     ADMIN_CALLBACK_TEMPLATE,
     ADMIN_COMMAND_NAME,
     CANCEL_CALLBACK_TEMPLATE,
+    CHAT_ID_COMMAND_NAME,
     FINISH_SUPPORT_DIALOG_CALLBACK,
     HELP_COMMAND_INFO,
     HELP_COMMAND_NAME,
@@ -13,15 +14,13 @@ from src.constants import (
     PRODUCT_ACTION_CALLBACK_TEMPLATE,
     PRODUCT_CALLBACK_TEMPLATE,
     PRODUCT_FOR_EDIT_CALLBACK_TEMPLATE,
+    PRODUCT_TYPE_FOR_NEW_PRODUCT_CALLBACK_TEMPLATE,
     PRODUCT_TYPE_FOR_PRODUCT_EDIT_CALLBACK_TEMPLATE,
     PROGRAM_TYPE_CALLBACK_TEMPLATE,
     START_COMMAND_INFO,
     START_COMMAND_NAME,
     SUPPORT_COMMAND_INFO,
     SUPPORT_COMMAND_NAME,
-)
-from src.constants.templates import (
-    PRODUCT_TYPE_FOR_NEW_PRODUCT_CALLBACK_TEMPLATE,
 )
 from src.controllers.telegram_bot.handlers import (
     add_new_product_type,
@@ -59,6 +58,7 @@ from src.controllers.telegram_bot.handlers import (
     process_user_reply_to_support,
 )
 from src.controllers.telegram_bot.handlers.callbacks import get_product_callback
+from src.controllers.telegram_bot.handlers.commands import get_chat_id_message
 from src.controllers.telegram_bot.states import (
     ADD_NEW_PRODUCT_TYPE_STATE,
     ADD_PRODUCT_AGENT_PROFITABILITY_STATE,
@@ -89,6 +89,10 @@ START_COMMAND_HANDLER = CommandHandler(
     START_COMMAND_NAME,
     get_help_message,
     filters=filters.ChatType.PRIVATE,
+)
+CHAT_ID_COMMAND_HANDLER = CommandHandler(
+    CHAT_ID_COMMAND_NAME,
+    get_chat_id_message,
 )
 HELP_COMMAND_HANDLER = CommandHandler(
     HELP_COMMAND_NAME,
@@ -208,7 +212,7 @@ FINISH_SUPPORT_DIALOG_CALLBACK_QUERY_HANDLER = CallbackQueryHandler(
 
 
 def get_command_handlers() -> tuple[CommandHandler, ...]:
-    return (START_COMMAND_HANDLER, HELP_COMMAND_HANDLER, MENU_COMMAND_HANDLER)
+    return (START_COMMAND_HANDLER, HELP_COMMAND_HANDLER, MENU_COMMAND_HANDLER, CHAT_ID_COMMAND_HANDLER)
 
 
 def get_conversation_handlers() -> tuple[ConversationHandler, ...]:

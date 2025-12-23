@@ -8,9 +8,11 @@ from telegram.ext import ContextTypes
 from src.constants import MENU_COMMAND_MESSAGE, PROGRAM_TYPE_CALLBACK_TEMPLATE
 from src.container import AppContainer
 from src.controllers.telegram_bot.states import START_ROUTES
+from src.controllers.telegram_bot.utils.verify_user import verify_user
 from src.gateways.database.models import Product, ProductType
 
 
+@verify_user
 @inject
 async def get_menu(
     update: Update,

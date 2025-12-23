@@ -19,6 +19,7 @@ from .callback_templates import (
 )
 from .commands_templates import (
     ADMIN_COMMAND_NAME,
+    CHAT_ID_COMMAND_NAME,
     COMMANDS_INFO,
     HELP_COMMAND_INFO,
     HELP_COMMAND_NAME,
@@ -162,4 +163,5 @@ __all__ = [
     "PRODUCT_TYPE_CANT_BE_SAVED_MESSAGE_TEMPLATE",
     "USER_WITH_USERNAME",
     "USER_WITHOUT_USERNAME",
+    "CHAT_ID_COMMAND_NAME",
 ]
