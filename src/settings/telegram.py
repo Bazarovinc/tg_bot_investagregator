@@ -1,4 +1,4 @@
-from pydantic import SecretStr
+from pydantic import SecretStr, AnyUrl
 from pydantic_settings import BaseSettings
 
 
@@ -8,4 +8,5 @@ class TelegramSettings(BaseSettings):
     admin_chat_id: int
     support_chat_id: int
     token: SecretStr
+    proxy: AnyUrl
     # webhook: AnyHttpUrl
